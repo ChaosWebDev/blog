@@ -10,6 +10,12 @@ nav {
     height: 100%;
     overflow-y: auto;
 
+    >span {
+        color: inherit;
+        padding: 0.5rem;
+        text-decoration: none;
+    }
+
     a {
         color: inherit;
         padding: 0.5rem;
