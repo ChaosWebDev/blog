@@ -6,3 +6,6 @@ import $ from 'jquery';
 window.$ = $;
 
 import "chaos-scss";
+
+import 'trix';
+import 'trix/dist/trix.css';
