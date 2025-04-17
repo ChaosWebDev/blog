@@ -4,6 +4,7 @@ use App\Livewire\Post\Edit;
 use App\Livewire\Auth\Login;
 use App\Livewire\Post\Index;
 use App\Livewire\Post\Create;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // ! AUTHENTICATED ROUTES ! //
@@ -24,4 +25,11 @@ Route::middleware('guest')->group(function () {
 
     // ! OPEN TO PUBLIC ROUTES ! //
     Route::get('/', fn() => "Unauthenticated Home")->name('home');
+});
+
+
+// ? DEBUGGING ? //
+Route::get('/logout', function () {
+    Auth::logout();
+    return redirect()->route('login');
 });
