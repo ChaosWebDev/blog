@@ -42,4 +42,8 @@ class Post extends Model
             }
         });
     }
+
+    public function getNavDateAttribute() {
+        return date('m/d/Y', strtotime($this->published_at));
+    }
 }

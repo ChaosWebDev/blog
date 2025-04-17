@@ -1,7 +1,9 @@
 <?php
 
 use App\Models\Post;
+use App\Livewire\Home;
 use App\Livewire\Post\Edit;
+use App\Livewire\Post\Show;
 use App\Livewire\Auth\Login;
 use App\Livewire\Post\Index;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +14,6 @@ Route::middleware('auth')->prefix('authd')->as('authd.')->group(function () {
     Route::get('/', fn() => "Authenticated Home")->name('home');
 
     Route::prefix('/post')->as('posts.')->group(function () {
-        Route::get('/', Index::class)->name('index');
         Route::get('/create', function () {
             $post = Post::create([]);
             $post->slug = "New Post-{$post->id}";
@@ -28,11 +29,11 @@ Route::middleware('auth')->prefix('authd')->as('authd.')->group(function () {
 Route::middleware('guest')->group(function () {
     // ! LOGIN ROUTES ! //
     Route::get('/login', Login::class)->name('login');
-
-    // ! OPEN TO PUBLIC ROUTES ! //
-    Route::get('/', fn() => "Unauthenticated Home")->name('home');
 });
 
+// ! OPEN ROUTES ! //
+Route::get('/', Home::class)->name('home');
+Route::get('/{slug}', Show::class)->name('posts.show');
 
 // ? DEBUGGING ? //
 Route::get('/logout', function () {
