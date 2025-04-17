@@ -25,13 +25,13 @@ class Post extends Model
     {
         static::creating(function ($post) {
             if (empty($post->slug)) {
-                $post->slug = Str::slug($post->title);
+                $post->slug = Str::slug($post->title) . '-' . uniqid();
             }
         });
 
         static::updating(function ($post) {
             if (empty($post->slug)) {
-                $post->slug = Str::slug($post->title);
+                $post->slug = Str::slug($post->title) . '-' . uniqid();
             }
         });
     }
