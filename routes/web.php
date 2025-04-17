@@ -14,7 +14,7 @@ Route::middleware('auth')->prefix('authd')->as('authd.')->group(function () {
     Route::prefix('/post')->as('posts.')->group(function () {
         Route::get('/', Index::class)->name('index');
         Route::get('/create', Create::class)->name('create');
-        Route::get('/{stub}/edit', Edit::class)->name('edit');
+        Route::get('/{post}/edit', Edit::class)->name('edit');
     });
 });
 
