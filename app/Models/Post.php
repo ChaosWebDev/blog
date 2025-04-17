@@ -21,17 +21,24 @@ class Post extends Model
         'is_published'
     ];
 
+    protected $casts = [
+        'tags' => 'array',
+        'meta' => 'array',
+        'is_published' => 'boolean',
+        'published_at' => 'datetime',
+    ];
+
     protected static function booted(): void
     {
         static::creating(function ($post) {
             if (empty($post->slug)) {
-                $post->slug = Str::slug($post->title) . '-' . uniqid();
+                $post->slug = Str::slug($post->title);
             }
         });
 
         static::updating(function ($post) {
             if (empty($post->slug)) {
-                $post->slug = Str::slug($post->title) . '-' . uniqid();
+                $post->slug = Str::slug($post->title);
             }
         });
     }
