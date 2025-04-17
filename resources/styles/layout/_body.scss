@@ -1,0 +1,7 @@
+@use "chaos-scss" as cs;
+
+body {
+    width: 100vw;
+    height: 100vh;
+    @extend .overflow-hidden;
+}

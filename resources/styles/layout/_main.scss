@@ -1,0 +1,7 @@
+@use "chaos-scss" as *;
+
+main {
+    height: 100%;
+    width: 100%;
+    @extend .overflow-auto;
+}
