@@ -1,8 +1,99 @@
-main#posts-create,
-main#posts-edit {
+@use "chaos-scss" as *;
+
+main#post-create,
+main#post-edit {
     section.content {
+        @extend .flex-column, .align-center;
+
         form {
-            color: inherit;
+            @extend .flex-column, .gap-md;
+            max-width: 1000px;
+            width: 100%;
+
+            label,
+            input,
+            button,
+            select {
+                font-size: 1rem;
+                text-align: center;
+                padding: 5px 10px;
+
+                &.title {
+                    font-size: 2rem !important;
+                }
+            }
+
+            input.card {
+                border: 1px solid var(--borderColor);
+                border-radius: 10px;
+            }
+
+            .input-group-row {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                grid-template-areas: 'tags file published addStub'
+                    'tag-error file-error pub-error stub-error';
+                justify-content: center;
+                align-items: center;
+                gap: 1rem;
+
+                #tags {
+                    grid-area: tags;
+                }
+
+                #cover_image {
+                    grid-area: file;
+                }
+
+                #is_published {
+                    grid-area: published;
+                }
+
+                #tag-error {
+                    grid-area: tag-error;
+                }
+
+                #file-error {
+                    grid-area: file-error;
+                }
+
+                #pub-error {
+                    grid-area: pub-error;
+                }
+
+                #tag-error,
+                #file-error,
+                #pub-error {
+                    color: var(--alert, maroon);
+                    font-size: 0.875rem;
+                }
+            }
+
+            input.full {
+                width: 100%;
+            }
+
+            .publish {
+                @extend .flex-row, .align-center, .justify-center, .gap-sm;
+                font-size: 1.5rem;
+
+                #is_published {
+                    width: 1.5rem;
+                }
+            }
+
+            .error {
+                color: var(--alert, maroon);
+            }
+
+            $height: 600px;
+
+            trix-editor {
+                height: $height;
+                min-height: $height;
+                max-height: $height;
+                overflow-y: auto;
+            }
         }
     }
 }

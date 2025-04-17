@@ -5,6 +5,7 @@ namespace App\Livewire\Post;
 use App\Models\Post;
 use Livewire\Component;
 use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
 
 class Form extends Component
 {
@@ -14,33 +15,70 @@ class Form extends Component
     public string $stub = '';
     public string $body = '';
     public array $tags = [];
+    public string $tagString = '';
+    public string $slug = '';
     public ?string $cover_image = null;
     public bool $is_published = false;
+    public ?string $published_at = null;
+    public bool $displayStub = false;
 
-    protected $rules = [
-        'title' => ['required', 'string', 'max:255'],
-        'stub' => ['required', 'string', 'max:255'],
-        'body' => ['required', 'string', '']
-    ];
 
-    public function save()
+    public function mount(?Post $post = null)
     {
-        $this->validate();
+        $this->post = $post ?? new Post();
 
-        $this->post->fill([
-            'slug' => Str::slug($this->title),
-            'title' => $this->title,
-            'stub' => $this->stub,
-            'body' => $this->body,
-            'tags' => $this->tags,
-            'cover_image' => $this->cover_image,
-            'reading_time' => ceil(str_word_count($this->body) / 200),
-            'is_published' => $this->is_published,
-        ]);
+        $this->is_published = (bool) $this->post->is_published;
+        $this->cover_image = $this->post->cover_image ?? null;
+        $this->tags = $this->post->tags ?? [];
+        $this->body = $this->post->body ?? '';
+        $this->stub = $this->post->stub ?? '';
+        $this->title = $this->post->title ?? '';
+        $this->slug = $this->post->slug ?? '';
+        $this->published_at = $this->post->published_at ?? null;
+
+        $this->tagString = implode(', ', $this->tags);
+    }
+
+    public function publish()
+    {
+        $this->is_published = !$this->is_published;
+        $this->post->is_published = $this->is_published;
+        $this->published_at = $this->is_published ? now() : null;
+        $this->post->published_at = $this->published_at;
 
         $this->post->save();
+    }
 
-        return redirect()->route('authd.posts.index');
+    public function updatedTitle($value)
+    {
+        $this->validate([
+            'title' => ['string', 'max:255'],
+        ]);
+
+        $this->post->title = $value;
+        $this->post->slug = Str::slug($value);
+        $this->post->save();
+
+        $this->title = $value;
+        $this->slug = $this->post->slug;
+    }
+
+    public function updatedTagString($value)
+    {
+        $this->tags = array_map('trim', explode(',', $value));
+        $this->post->tags = $this->tags;
+        $this->post->save();
+    }
+
+    public function updatedCoverImage($file)
+    {
+        /* ... */
+    }
+
+    public function updatedBody($value)
+    {
+        $this->post->body = $value;
+        $this->post->save();
     }
 
     public function render()
