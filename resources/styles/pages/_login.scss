@@ -9,9 +9,20 @@ main#login {
         fieldset {
             padding: 1rem;
 
-            .buttons {
+            .buttons,
+            .error,
+            .errors {
                 grid-column: 1 / -1;
                 @extend .flex-row, .align-center, .justify-center;
+            }
+
+            .error,
+            .errors {
+                color: var(--alert, maroon);
+            }
+
+            input[type=checkbox] {
+                width: 20px;
             }
         }
     }
