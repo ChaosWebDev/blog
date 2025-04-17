@@ -3,18 +3,16 @@
 use App\Livewire\Auth\Login;
 use Illuminate\Support\Facades\Route;
 
-// ! LOGIN ROUTES ! //
+// ! AUTHENTICATED ROUTES ! //
+Route::middleware('auth')->prefix('authd')->as('authd.')->group(function () {
+    Route::get('/', fn() => "Authenticated Home")->name('home');
+});
+
+
 Route::middleware('guest')->group(function () {
+    // ! LOGIN ROUTES ! //
     Route::get('/login', Login::class)->name('login');
-});
 
-// ! MUST BE AUTHENTICATED ROUTES ! //
-Route::middleware('auth')->group(function () {
-    Route::get('/', fn() => "HOME")->name('home');
-});
-
-// ! OPEN TO PUBLIC ROUTES ! //
-// TODO - [[PLACEHOLDER]] - TODO //
-Route::middleware('auth')->group(function () {
-    Route::get('/', fn() => "Unauthed Home")->name('home');
+    // ! OPEN TO PUBLIC ROUTES ! //
+    Route::get('/', fn() => "Unauthenticated Home")->name('home');
 });

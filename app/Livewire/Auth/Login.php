@@ -22,7 +22,7 @@ class Login extends Component
             return redirect()->back()->with('error', 'Unable to log in. Please check username/password.');
         }
 
-        return redirect()->route('home');
+        return redirect()->route('authd.home');
     }
 
     public function render()
