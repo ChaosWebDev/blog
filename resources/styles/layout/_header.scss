@@ -1,0 +1,11 @@
+@use "chaos-scss" as *;
+
+header {
+    @extend .flex-row, .align-center;
+
+    h1 {
+        margin-left: 2rem;
+    }
+
+    border-bottom: 2px solid var(--borderColor);
+}

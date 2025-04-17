@@ -1,6 +1,7 @@
 @use "chaos-scss" as cs;
 
 body {
+    @extend .flex-row;
     width: 100vw;
     height: 100vh;
     @extend .overflow-hidden;

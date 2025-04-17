@@ -4,4 +4,8 @@ main {
     height: 100%;
     width: 100%;
     @extend .overflow-auto;
+
+    section.content {
+        padding: 1rem;
+    }
 }
