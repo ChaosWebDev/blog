@@ -27,17 +27,18 @@ class Form extends Component
     {
         $this->validate();
 
-
-        Post::create([
+        $this->post->fill([
             'slug' => Str::slug($this->title),
             'title' => $this->title,
             'stub' => $this->stub,
             'body' => $this->body,
             'tags' => $this->tags,
             'cover_image' => $this->cover_image,
-            'reading_time' => str_word_count($this->body) / 200,
+            'reading_time' => ceil(str_word_count($this->body) / 200),
             'is_published' => $this->is_published,
         ]);
+
+        $this->post->save();
 
         return redirect()->route('authd.posts.index');
     }

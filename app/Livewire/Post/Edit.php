@@ -11,6 +11,8 @@ class Edit extends Component
 
     public function render()
     {
-        return view('post.edit');
+        return view('post.edit', [
+            'post' => $this->post
+        ]);
     }
 }
