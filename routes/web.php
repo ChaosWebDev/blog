@@ -1,9 +1,9 @@
 <?php
 
+use App\Models\Post;
 use App\Livewire\Post\Edit;
 use App\Livewire\Auth\Login;
 use App\Livewire\Post\Index;
-use App\Livewire\Post\Create;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -13,7 +13,13 @@ Route::middleware('auth')->prefix('authd')->as('authd.')->group(function () {
 
     Route::prefix('/post')->as('posts.')->group(function () {
         Route::get('/', Index::class)->name('index');
-        Route::get('/create', Create::class)->name('create');
+        Route::get('/create', function () {
+            $post = Post::create([]);
+            $post->slug = "New Post-{$post->id}";
+            $post->title = "New Post - {$post->id}";
+            $post->save();
+            return redirect()->route('authd.posts.edit', $post->slug);
+        })->name('create');
         Route::get('/{slug}/edit', Edit::class)->name('edit');
     });
 });
