@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,6 +12,17 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
+            $table->string('slug')->unique();
+            $table->string('title');
+            $table->string('stub');
+            $table->longText('body');
+            $table->json('tags')->nullable();
+            $table->string('cover_image')->nullable();
+            $table->unsignedBigInteger('views')->default(0);
+            $table->json('meta')->nullable();
+            $table->unsignedInteger('reading_time')->nullable();
+            $table->timestamp('published_at')->index()->nullable();
+            $table->boolean('is_published')->default(false);
             $table->timestamps();
         });
     }
