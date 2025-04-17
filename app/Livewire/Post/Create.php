@@ -9,6 +9,6 @@ class Create extends Component
 {
     public function render()
     {
-        return view('post.create',['post'=>new Post()]);
+        return view('post.create');
     }
 }

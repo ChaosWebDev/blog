@@ -3,12 +3,14 @@
 main#post-create,
 main#post-edit {
     section.content {
-        @extend .flex-column, .align-center;
+        @extend .flex-row, .justify-center, .gap-xl;
 
         form {
             @extend .flex-column, .gap-md;
             max-width: 1000px;
             width: 100%;
+            min-width: 900px;
+            margin-right: 1rem;
 
             label,
             input,

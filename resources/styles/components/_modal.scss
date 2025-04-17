@@ -1,0 +1,33 @@
+@use "chaos-scss" as *;
+
+.modal-container {
+    @extend .flex-row, .align-center, .justify-center;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    background: rgba(0.8, 0.8, 0.8, 0.8);
+    z-index: 10;
+
+    .modal {
+        width: 50%;
+        height: 75%;
+        background: white;
+        color: black;
+        z-index: 11;
+
+        @extend .flex-column, .align-center, .justify-center, .gap-md;
+        padding: 2rem;
+
+textarea {
+    width: 80%;
+    height: 75%;
+
+    font-size: 1rem;
+    padding: 1rem;
+}
+    }
+}

@@ -5,10 +5,15 @@ namespace App\Livewire\Post;
 use App\Models\Post;
 use Livewire\Component;
 use Illuminate\Support\Str;
+use Livewire\Attributes\On;
+use Livewire\WithFileUploads;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class Form extends Component
 {
+    use WithFileUploads;
+
     public ?Post $post;
 
     public string $title = '';
@@ -23,7 +28,7 @@ class Form extends Component
     public bool $displayStub = false;
 
 
-    public function mount(?Post $post = null)
+    public function mount(?Post $post)
     {
         $this->post = $post ?? new Post();
 
@@ -51,16 +56,13 @@ class Form extends Component
 
     public function updatedTitle($value)
     {
-        $this->validate([
-            'title' => ['string', 'max:255'],
-        ]);
-
         $this->post->title = $value;
         $this->post->slug = Str::slug($value);
         $this->post->save();
 
-        $this->title = $value;
         $this->slug = $this->post->slug;
+
+        $this->dispatch('slugUpdated', ['slug' => $this->slug]);
     }
 
     public function updatedTagString($value)
@@ -72,13 +74,35 @@ class Form extends Component
 
     public function updatedCoverImage($file)
     {
-        /* ... */
+        $path = $file->storeAs(
+            $this->slug,
+            'cover.' . $file->getClientOriginalExtension(),
+            'public'
+        );
+
+        $this->cover_image = $path;
+        $this->post->cover_image = $path;
+        $this->post->save();
+    }
+
+
+    public function updateStub()
+    {
+        $this->post->stub = $this->stub;
+        $this->post->save();
+
+        $this->displayStub = false;
     }
 
     public function updatedBody($value)
     {
         $this->post->body = $value;
         $this->post->save();
+    }
+
+    public function showStubModal()
+    {
+        $this->displayStub = true;
     }
 
     public function render()

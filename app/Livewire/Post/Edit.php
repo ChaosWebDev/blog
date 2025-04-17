@@ -9,6 +9,11 @@ class Edit extends Component
 {
     public Post $post;
 
+    public function mount($slug)
+    {
+        $this->post = Post::where('slug', $slug)->first();
+    }
+
     public function render()
     {
         return view('post.edit', [
